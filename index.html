@@ -3,28 +3,59 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Zenith Studio</title>
+    <title>PORTFOLYA. | Canlı Editör</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
     <style>
-        body { background: #0f172a; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { background: #0b0e14; color: white; margin: 0; min-height: 100vh; }
+        .editor-header { background: #111827; border: 1px solid #1f2937; border-top-left-radius: 8px; border-top-right-radius: 8px; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+        .window-dot { width: 12px; height: 12px; border-radius: 50%; }
+        #editor { height: 400px; }
+        #preview { width: 100%; height: 400px; background: white; border: none; }
     </style>
 </head>
 <body>
 
-    <nav class="h-12 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-4 text-xs font-bold text-slate-400">
-        <div class="flex gap-4 uppercase tracking-widest">
-            <span>Zenith Studio</span>
-        </div>
-        <div class="flex gap-4">
-            <button onclick="exportCode()" class="hover:text-blue-400 cursor-pointer">İNDİR</button>
-            <button onclick="clearEditor()" class="hover:text-red-400 cursor-pointer">SİFİR-LA</button>
+    <!-- Üst Navigasyon (Görseldeki Gibi) -->
+    <nav class="flex items-center justify-between p-6 border-b border-slate-800 bg-[#0b0e14]">
+        <div class="text-2xl font-black tracking-tighter text-blue-400">PORTFOLYA.</div>
+        <div class="flex gap-4 text-xl">
+            <span>🎨</span>
+            <span>⚙️</span>
+            <span>≡</span>
         </div>
     </nav>
 
-    <main class="flex flex-grow w-full overflow-hidden">
-        <div id="editor" class="w-1/2 h-full"></div>
-        <iframe id="preview" class="w-1/2 h-full border-none bg-white"></iframe>
+    <main class="max-w-6xl mx-auto py-10 px-4">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold mb-2">Canlı Kod Editörü</h1>
+            <p class="text-slate-400">HTML ve CSS kodlarınızı sol tarafa yazın, çıktısını sağ taraftaki köşede anında izleyin.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Sol: Kod Editörü -->
+            <div>
+                <div class="editor-header">
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-400">> index.html</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="window-dot bg-red-500"></div>
+                        <div class="window-dot bg-yellow-500"></div>
+                        <div class="window-dot bg-green-500"></div>
+                    </div>
+                </div>
+                <div id="editor" class="border-x border-b border-slate-800 rounded-b-lg overflow-hidden"></div>
+            </div>
+
+            <!-- Sağ: Canlı Önizleme -->
+            <div>
+                <div class="editor-header bg-slate-900">
+                    <span class="text-slate-300 text-sm">◎ CANLI ÖNİZLEME KÖŞESİ</span>
+                </div>
+                <iframe id="preview" class="border-x border-b border-slate-800 rounded-b-lg"></iframe>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -32,33 +63,22 @@
         
         require(['vs/editor/editor.main'], function() {
             window.editor = monaco.editor.create(document.getElementById('editor'), {
-                value: "<!-- Yeni Başlangıç -->\n<h1>Zenith</h1>",
+                value: "<h1>🚀 Sistem Hazır!</h1>\n<p>Sol taraftaki kutuya HTML yazarak burayı değiştirebilirsin.</p>",
                 language: 'html',
                 theme: 'vs-dark',
-                fontSize: 13,
                 automaticLayout: true
             });
 
-            window.editor.onDidChangeModelContent(() => {
-                const code = window.editor.getValue();
-                const blob = new Blob([code], { type: 'text/html' });
+            const update = () => {
+                const blob = new Blob([window.editor.getValue()], { type: 'text/html' });
                 document.getElementById('preview').src = URL.createObjectURL(blob);
-            });
+            };
+            window.editor.onDidChangeModelContent(update);
+            update();
         });
-
-        function clearEditor() {
-            window.editor.setValue("");
-        }
-
-        function exportCode() {
-            const blob = new Blob([window.editor.getValue()], { type: 'text/html' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'proje.html';
-            a.click();
-        }
     </script>
 </body>
 </html>
 
 ```
+ 
