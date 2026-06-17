@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -10,13 +9,15 @@
         body { background: #0b0e14; color: white; margin: 0; min-height: 100vh; }
         .editor-header { background: #111827; border: 1px solid #1f2937; border-top-left-radius: 8px; border-top-right-radius: 8px; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
         .window-dot { width: 12px; height: 12px; border-radius: 50%; }
-        #editor { height: 400px; }
-        #preview { width: 100%; height: 400px; background: white; border: none; }
+        
+        /* Yükseklikler 400px'ten 75vh'ye (ekranın %75'i) çıkarıldı */
+        #editor { height: 75vh; min-height: 600px; }
+        #preview { width: 100%; height: 75vh; min-height: 600px; background: white; border: none; }
     </style>
 </head>
 <body>
 
-    <!-- Üst Navigasyon (Görseldeki Gibi) -->
+    <!-- Üst Navigasyon -->
     <nav class="flex items-center justify-between p-6 border-b border-slate-800 bg-[#0b0e14]">
         <div class="text-2xl font-black tracking-tighter text-blue-400">PORTFOLYA.</div>
         <div class="flex gap-4 text-xl">
@@ -26,15 +27,16 @@
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto py-10 px-4">
-        <div class="text-center mb-10">
+    <!-- Ana Konteyner: Genişlik limiti max-w-6xl yerine max-w-[95%] yapılarak genişletildi -->
+    <main class="max-w-[98%] mx-auto py-8 px-4">
+        <div class="text-center mb-8">
             <h1 class="text-3xl font-bold mb-2">Canlı Kod Editörü</h1>
             <p class="text-slate-400">HTML ve CSS kodlarınızı sol tarafa yazın, çıktısını sağ taraftaki köşede anında izleyin.</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-6">
             <!-- Sol: Kod Editörü -->
-            <div>
+            <div class="flex flex-col">
                 <div class="editor-header">
                     <div class="flex items-center gap-2">
                         <span class="text-slate-400">> index.html</span>
@@ -45,15 +47,15 @@
                         <div class="window-dot bg-green-500"></div>
                     </div>
                 </div>
-                <div id="editor" class="border-x border-b border-slate-800 rounded-b-lg overflow-hidden"></div>
+                <div id="editor" class="border-x border-b border-slate-800 rounded-b-lg overflow-hidden w-full"></div>
             </div>
 
             <!-- Sağ: Canlı Önizleme -->
-            <div>
+            <div class="flex flex-col">
                 <div class="editor-header bg-slate-900">
                     <span class="text-slate-300 text-sm">◎ CANLI ÖNİZLEME KÖŞESİ</span>
                 </div>
-                <iframe id="preview" class="border-x border-b border-slate-800 rounded-b-lg"></iframe>
+                <iframe id="preview" class="border-x border-b border-slate-800 rounded-b-lg w-full"></iframe>
             </div>
         </div>
     </main>
@@ -63,7 +65,7 @@
         
         require(['vs/editor/editor.main'], function() {
             window.editor = monaco.editor.create(document.getElementById('editor'), {
-                value: "<h1>🚀 Sistem Hazır!</h1>\n<p>Sol taraftaki kutuya HTML yazarak burayı değiştirebilirsin.</p>",
+                value: "<h1>🚀 Sistem Hazır!</h1>\n<p>Sol taraftaki kutuya HTML yazarak burayı değiştirebilirsin.</p>\n\n<style>\n  h1 {\n    color: #3b82f6;\n    font-family: sans-serif;\n  }\n  p {\n    font-family: sans-serif;\n    font-size: 18px;\n  }\n</style>",
                 language: 'html',
                 theme: 'vs-dark',
                 automaticLayout: true
@@ -79,6 +81,3 @@
     </script>
 </body>
 </html>
-
-```
- 
